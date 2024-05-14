@@ -1,7 +1,9 @@
 package com.seniority.petservice.controllers;
 
+import com.seniority.petservice.cqrs.query.FindPetByIdQuery;
+import com.seniority.petservice.cqrs.query.FindPetByShelterIdQuery;
 import com.seniority.petservice.dtos.PetDto;
-import com.seniority.petservice.services.FindPet;
+import com.seniority.petservice.cqrs.handler.FindPetHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +19,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FindPetController {
 
-    private final FindPet findPet;
+    private final FindPetHandler findPetHandler;
 
-    @GetMapping("/{shelterId}")
+    @GetMapping("/shelterId/{shelterId}")
     @ResponseStatus(HttpStatus.OK)
-    private List<PetDto> findAll(@PathVariable("shelterId") Long shelterId) {
-        return findPet.findInShelter(shelterId);
+    private List<PetDto> findAllByShelterId(@PathVariable("shelterId") Long shelterId) {
+        return findPetHandler.find(new FindPetByShelterIdQuery(shelterId));
+    }
+
+    @GetMapping("/id/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    private PetDto findAllById(@PathVariable("id") Long id) {
+        return findPetHandler.find(new FindPetByIdQuery(id));
     }
 }

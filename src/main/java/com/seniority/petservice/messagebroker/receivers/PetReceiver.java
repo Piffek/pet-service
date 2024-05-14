@@ -1,6 +1,6 @@
 package com.seniority.petservice.messagebroker.receivers;
 
-import com.seniority.petservice.services.AddNewPet;
+import com.seniority.petservice.cqrs.handler.AddPetHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.shelter.commands.AddPetCommand;
@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PetReceiver {
 
-    private final AddNewPet addNewPet;
+    private final AddPetHandler addPetHandler;
 
     @RabbitListener(queues = "${pet.queue.name}")
     public void receiveMessagePet(AddPetCommand addPetCommand) {
-        log.info("Creating new pet with name {} ...", addPetCommand.getName());
-        addNewPet.create(addPetCommand);
+        addPetHandler.add(addPetCommand);
     }
 }
