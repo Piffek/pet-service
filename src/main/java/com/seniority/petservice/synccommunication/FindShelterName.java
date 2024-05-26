@@ -11,13 +11,13 @@ public class FindShelterName {
 
     private static final String FIND_NAME_PATH = "%s/api/place/find/name/%s";
 
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
     @Value("${shelter.host}")
     private String shelterHost;
 
     public String find(Long shelterId) {
-        return webClient.get()
+        return webClientBuilder.build().get()
                 .uri(FIND_NAME_PATH.formatted(shelterHost, shelterId))
                 .retrieve()
                 .bodyToMono(String.class)
