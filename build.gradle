@@ -35,6 +35,7 @@ dependencies {
 	implementation group: 'org.springframework', name: 'spring-webflux', version: '6.1.6'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.1.1'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-circuitbreaker-resilience4j', version: '3.1.1'
 }
 
 

@@ -4,6 +4,7 @@ import com.seniority.petservice.cqrs.query.FindPetByIdQuery;
 import com.seniority.petservice.cqrs.query.FindPetByShelterIdQuery;
 import com.seniority.petservice.dtos.PetDto;
 import com.seniority.petservice.cqrs.handler.FindPetHandler;
+import com.seniority.petservice.messagebroker.producers.NotFoundNotificationProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import java.util.List;
 public class FindPetController {
 
     private final FindPetHandler findPetHandler;
+    private final NotFoundNotificationProducer notificationProducer;
 
     @GetMapping("/shelterId/{shelterId}")
     @ResponseStatus(HttpStatus.OK)

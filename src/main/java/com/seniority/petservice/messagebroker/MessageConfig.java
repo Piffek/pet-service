@@ -25,6 +25,15 @@ public class MessageConfig {
     @Value("${pet.routing.key}")
     private String petRoutingKey;
 
+    @Value("${notification.exchange.name}")
+    private String notificationExchangeName;
+
+    @Value("${notification.queue.name}")
+    private String notificationQueueName;
+
+    @Value("${notification.routing.key}")
+    private String notificationRoutingKey;
+
     @Bean
     public Queue petQueue() {
         return new Queue(petQueueName);
@@ -41,6 +50,24 @@ public class MessageConfig {
                 .bind(petQueue())
                 .to(appExchange())
                 .with(petRoutingKey);
+    }
+
+    @Bean
+    public Queue notificationQueue() {
+        return new Queue(notificationQueueName);
+    }
+
+    @Bean
+    public TopicExchange notificationExchange() {
+        return new TopicExchange(notificationExchangeName);
+    }
+
+    @Bean
+    public Binding notificationBinding() {
+        return BindingBuilder
+                .bind(notificationQueue())
+                .to(notificationExchange())
+                .with(notificationRoutingKey);
     }
 
     @Bean
