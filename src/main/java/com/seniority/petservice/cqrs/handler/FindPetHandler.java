@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 @Service
@@ -18,7 +19,7 @@ public class FindPetHandler {
         return findPet.byShelterId(query.shelterId());
     }
 
-    public PetDto find(FindPetByIdQuery query) {
+    public PetDto find(FindPetByIdQuery query) throws ExecutionException, InterruptedException {
         return findPet.byId(query.id());
     }
 }

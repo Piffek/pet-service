@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api/pet/find")
@@ -31,7 +32,7 @@ public class FindPetController {
 
     @GetMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private PetDto findAllById(@PathVariable("id") Long id) {
+    private PetDto findAllById(@PathVariable("id") Long id) throws ExecutionException, InterruptedException {
         return findPetHandler.find(new FindPetByIdQuery(id));
     }
 }

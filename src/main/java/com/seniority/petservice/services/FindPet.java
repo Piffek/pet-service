@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -19,15 +20,21 @@ public class FindPet {
     public List<PetDto> byShelterId(Long shelterId) {
         var shelterName = findShelterName.find(shelterId);
         return petRepository.findByShelterId(shelterId).stream()
-                .map(pet -> convert(pet, shelterName))
+                .map(pet -> {
+                    try {
+                        return convert(pet, shelterName.get());
+                    } catch (InterruptedException | ExecutionException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .toList();
     }
 
-    public PetDto byId(Long id) {
+    public PetDto byId(Long id) throws ExecutionException, InterruptedException {
         var pet = petRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("cannot find pet with id %s".formatted(id)));
         var shelterName = findShelterName.find(pet.getShelterId());
-        return convert(pet, shelterName);
+        return convert(pet, shelterName.get());
     }
 
     private PetDto convert(Pet pet, String shelterName) {
