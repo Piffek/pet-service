@@ -74,7 +74,7 @@ public class MessageConfig {
     public MessageConverter jsonMessageConverter() {
         var converter = new Jackson2JsonMessageConverter();
         var classMapper = new DefaultClassMapper();
-        classMapper.setTrustedPackages("org.shelter.commands");
+        classMapper.setTrustedPackages("com.seniority.petservice.messagebroker.command", "com.seniority.shelter.addPet.messagebroker.command");
         converter.setClassMapper(classMapper);
         return converter;
     }

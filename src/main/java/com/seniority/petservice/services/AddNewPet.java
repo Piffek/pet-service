@@ -1,9 +1,9 @@
 package com.seniority.petservice.services;
 
+import com.seniority.petservice.messagebroker.command.AddPetCommand;
 import com.seniority.petservice.models.Pet;
 import com.seniority.petservice.repositories.PetRepository;
 import lombok.RequiredArgsConstructor;
-import org.shelter.commands.AddPetCommand;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +18,6 @@ public class AddNewPet {
     }
 
     private Pet convert(AddPetCommand addPetCommand) {
-        return new Pet(addPetCommand.getDestinationShelterId(), addPetCommand.getName(), addPetCommand.getFoundCity());
+        return new Pet(addPetCommand.getShelterId(), addPetCommand.getName(), addPetCommand.getFoundCity());
     }
 }

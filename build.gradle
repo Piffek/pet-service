@@ -31,7 +31,6 @@ dependencies {
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '1.2.1.RELEASE'
 	implementation group: 'org.springframework.amqp', name: 'spring-rabbit', version: '3.1.4'
-	implementation group: 'org.shelter.mq', name: 'objects', version: '1.0-SNAPSHOT'
 	implementation group: 'org.springframework', name: 'spring-webflux', version: '6.1.6'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.1.1'
