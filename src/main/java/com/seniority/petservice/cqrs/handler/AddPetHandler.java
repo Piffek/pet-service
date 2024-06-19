@@ -1,9 +1,9 @@
 package com.seniority.petservice.cqrs.handler;
 
+import com.seniority.petservice.messagebroker.command.AddPetCommand;
 import com.seniority.petservice.services.AddNewPet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.shelter.commands.AddPetCommand;
 import org.springframework.stereotype.Service;
 
 @Log4j2

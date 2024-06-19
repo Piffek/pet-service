@@ -69,13 +69,4 @@ public class MessageConfig {
                 .to(notificationExchange())
                 .with(notificationRoutingKey);
     }
-
-    @Bean
-    public MessageConverter jsonMessageConverter() {
-        var converter = new Jackson2JsonMessageConverter();
-        var classMapper = new DefaultClassMapper();
-        classMapper.setTrustedPackages("org.shelter.commands");
-        converter.setClassMapper(classMapper);
-        return converter;
-    }
 }
