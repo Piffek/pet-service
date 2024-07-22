@@ -13,6 +13,6 @@ public class ShelterServiceFallback implements ShelterServiceClient {
     @Override
     public String findName(Long shelterId) {
         notificationProducer.produce("shelter-service");
-        return "not found";
+        return "not found2";
     }
 }
