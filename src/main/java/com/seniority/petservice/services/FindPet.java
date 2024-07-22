@@ -1,43 +1,37 @@
 package com.seniority.petservice.services;
 
+import com.seniority.petservice.client.ShelterServiceClient;
 import com.seniority.petservice.config.Cache;
 import com.seniority.petservice.dtos.PetDto;
 import com.seniority.petservice.models.Pet;
 import com.seniority.petservice.repositories.PetRepository;
-import com.seniority.petservice.synccommunication.FindShelterName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
 public class FindPet {
 
     private final PetRepository petRepository;
-    private final FindShelterName findShelterName;
+    //    private final FindShelterName findShelterName;
+    private final ShelterServiceClient shelterServiceClient;
 
     @Cacheable(Cache.PETS)
     public List<PetDto> byShelterId(Long shelterId) {
-        var shelterName = findShelterName.find(shelterId);
+        var shelterName = shelterServiceClient.findName(shelterId);
         return petRepository.findByShelterId(shelterId).stream()
-                .map(pet -> {
-                    try {
-                        return convert(pet, shelterName.get());
-                    } catch (InterruptedException | ExecutionException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .map(pet -> convert(pet, shelterName))
                 .toList();
     }
 
-    public PetDto byId(Long id) throws ExecutionException, InterruptedException {
+    public PetDto byId(Long id) {
         var pet = petRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("cannot find pet with id %s".formatted(id)));
-        var shelterName = findShelterName.find(pet.getShelterId());
-        return convert(pet, shelterName.get());
+        var shelterName = shelterServiceClient.findName(pet.getShelterId());
+        return convert(pet, shelterName);
     }
 
     private PetDto convert(Pet pet, String shelterName) {
